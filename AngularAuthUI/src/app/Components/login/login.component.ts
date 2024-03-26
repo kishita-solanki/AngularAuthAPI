@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 import ValidateForm from 'src/app/Helpers/validateform';
 import { AuthService } from 'src/app/Services/auth.service';
 
@@ -16,10 +16,8 @@ export class LoginComponent implements OnInit {
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
   loginForm!: FormGroup;
-  isPopupOpen = false;
-  loginMessage = '';
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router : Router, private toast : NgToastService) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, private router : Router, private toast : ToastrService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -40,23 +38,20 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){
       this.auth.login(this.loginForm.value).subscribe({
         next:(res) =>{
-          alert(res.message);
-          //  this.toast.success({detail: "Success", summary: res.message, duration: 5000});
-          this.loginMessage = res.message;
-          this.isPopupOpen = true;
           this.loginForm.reset();
+          this.auth.setToken(res.token);
+          this.toast.success(res.message, 'SUCCESS');
           this.router.navigate(['dashboard']);
         },
         error:(res) =>{
-          alert(res.error.message);
-          //this.toast.error({detail: "ERROR", summary: res.message, duration: 5000});
+          console.log(res);
+          this.toast.error(res.error.message, 'ERROR');
         }
       })
     }
     else
     {
       ValidateForm.ValidateAllFormFields(this.loginForm);
-      //alert("your from is invalid");
     }
   }
 }

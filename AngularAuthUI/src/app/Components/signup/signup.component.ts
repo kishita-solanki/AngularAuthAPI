@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import ValidateForm from 'src/app/Helpers/validateform';
 import { AuthService } from 'src/app/Services/auth.service';
 
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
   eyeIcon: string = "fa-eye-slash";
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth : AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private auth : AuthService, private router: Router, private toast : ToastrService) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -38,19 +39,18 @@ export class SignupComponent implements OnInit {
     if(this.signupForm.valid){
       this.auth.signUp(this.signupForm.value).subscribe({
         next:(res) => {
-          alert(res.message);
+          this.toast.success(res.message, 'SUCCESS');
           this.signupForm.reset();
           this.router.navigate(['login']);
         },
         error: (res) => {
-          alert(res.error.message)
+          this.toast.error(res.error.message, 'ERROR');
         }
       })
     }
     else
     {
       ValidateForm.ValidateAllFormFields(this.signupForm);
-      //alert("your from is invalid");
     }
   }
 }

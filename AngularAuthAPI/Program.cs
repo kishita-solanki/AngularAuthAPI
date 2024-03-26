@@ -1,5 +1,8 @@
 using AngularAuthAPI.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,24 @@ builder.Services.AddCors(options =>
         .AllowCredentials());
 });
 
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KUtKYJf86WdDxe0XiDjLyvf29cWEeyOPK8jhADjNrWo=")),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 
 var app = builder.Build();
 
@@ -34,7 +55,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
-// app.UserAuthentication();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

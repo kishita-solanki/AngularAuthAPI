@@ -1,9 +1,12 @@
 ﻿using AngularAuthAPI.Context;
 using AngularAuthAPI.Helpers;
 using AngularAuthAPI.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -31,7 +34,12 @@ namespace AngularAuthAPI.Controllers
 
             if (!PasswordHasher.VerifyPassword(userrequest.Password, user.Password)) return BadRequest(new { Message = "Password is incorrect" });
 
-            return Ok(new {Message = "User login successfully!!"});
+            user.Token = CreateJwtToken(user);
+
+            return Ok(new {
+                Token = user.Token,
+                Message = "User login successfully!!"
+            });;
         }
 
         [HttpPost("register")]
@@ -61,7 +69,7 @@ namespace AngularAuthAPI.Controllers
             => _authContext.Users.AnyAsync(x => x.Email == email);
 
         private string CheckPasswordStrength(string Password){
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             if(Password.Length < 8)
                 sb.Append("Miimum Password length should must be 8" + Environment.NewLine);
 
@@ -72,6 +80,34 @@ namespace AngularAuthAPI.Controllers
                 sb.Append("Password should contains special characters" + Environment.NewLine);
 
             return sb.ToString();
+        }
+
+        private string CreateJwtToken(User user)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("KUtKYJf86WdDxe0XiDjLyvf29cWEeyOPK8jhADjNrWo=");
+            var identity = new ClaimsIdentity(new Claim[]
+            {
+                new (ClaimTypes.Role, user.Role),
+                new (ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
+            });
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                //Expires = DateTime.Now.AddSeconds(5),
+                Expires = DateTime.Now.AddHours(5),
+                SigningCredentials = credentials
+            };
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return jwtTokenHandler.WriteToken(token);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<User>> GetAllUsers()
+        {
+            return Ok(await _authContext.Users.ToListAsync());
         }
     }
 }
