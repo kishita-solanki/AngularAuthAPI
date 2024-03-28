@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import ValidateForm from 'src/app/Helpers/validateform';
 import { AuthService } from 'src/app/Services/auth.service';
+import { UserStoreService } from 'src/app/Services/user-store.service';
 
 @Component({
-  selector: 'app-login',  
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -16,8 +17,17 @@ export class LoginComponent implements OnInit {
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
   loginForm!: FormGroup;
-
-  constructor(private fb: FormBuilder, private auth: AuthService, private router : Router, private toast : ToastrService) { }
+  resetPasswordEmail!: string;
+  isValidEmail!: boolean;
+  temptest = new FormControl('', [Validators.required, Validators.email]);
+  
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private toast: ToastrService,
+    private userstore: UserStoreService
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -34,24 +44,42 @@ export class LoginComponent implements OnInit {
     this.isText ? this.type = "text" : this.type = "password";
   }
 
-  onLogin(){
-    if(this.loginForm.valid){
+  onLogin() {
+    if (this.loginForm.valid) {
       this.auth.login(this.loginForm.value).subscribe({
-        next:(res) =>{
+        next: (res) => {
           this.loginForm.reset();
           this.auth.setToken(res.token);
+          let tokenPayload = this.auth.decodedToken();
+          this.userstore.setFullNameForStore(tokenPayload.unique_name);
+          this.userstore.setRoleForStore(tokenPayload.role);
           this.toast.success(res.message, 'SUCCESS');
           this.router.navigate(['dashboard']);
         },
-        error:(res) =>{
+        error: (res) => {
           console.log(res);
           this.toast.error(res.error.message, 'ERROR');
         }
       })
     }
-    else
-    {
+    else {
       ValidateForm.ValidateAllFormFields(this.loginForm);
+    }
+  }
+
+  checkValidEmail(event : string) {
+    const value = event;
+    const pattern = /^\w+([-+.']\w+)*@([\w-]+\.)+[\w]{2,4}$/;
+    this.isValidEmail = pattern.test(value);
+    return this.isValidEmail;
+  }
+
+  ForgetPasswordSet(){
+    if(this.checkValidEmail(this.resetPasswordEmail)){
+      console.log(this.resetPasswordEmail);
+      this.resetPasswordEmail = "";
+      const buttonref = document.getElementById("closebtn");
+      buttonref?.click();
     }
   }
 }
