@@ -13,6 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   else{
     toast.error("Please login first!!", 'ERROR');
     router.navigate(['login']);
+    localStorage.clear();
     return false;
   }
 };

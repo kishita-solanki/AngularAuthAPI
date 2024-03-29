@@ -23,8 +23,4 @@ export class DashboardComponent implements OnInit {
       this.fullName = val || fullNameFromToken;
     })
   }
-
-  onLogout(){
-    this.auth.signOut();
-  }
 }

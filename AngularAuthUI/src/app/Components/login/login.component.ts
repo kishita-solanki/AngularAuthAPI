@@ -36,6 +36,10 @@ export class LoginComponent implements OnInit {
       // password: ['', [Validators.required, Validators.minLength(8), Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])")]]
       password: ['', [Validators.required, Validators.minLength(8)]]
     })
+
+    if(this.auth.isUserLoggedIn()){
+      this.router.navigate(['dashboard']);
+    }
   }
 
   hideShowPass() {
