@@ -9,6 +9,7 @@ import { ProductComponent } from './Components/Products/product/product.componen
 import { SellerComponent } from './Components/Sellers/seller/seller.component';
 import { ClientComponent } from './Components/Clients/client/client.component';
 import { InvoiceComponent } from './Components/invoice/invoice/invoice.component';
+import { AddeditproductComponent } from './Components/Products/addeditproduct/addeditproduct.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,6 +22,8 @@ const routes: Routes = [
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'products', component: ProductComponent },
+            { path: 'addproduct', component: AddeditproductComponent },
+            { path: 'editproduct/:id', component: AddeditproductComponent },
             { path: 'sellers', component: SellerComponent },
             { path: 'clients', component: ClientComponent },
             { path: 'invoice', component: InvoiceComponent },

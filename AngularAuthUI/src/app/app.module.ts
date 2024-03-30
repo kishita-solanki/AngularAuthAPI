@@ -17,6 +17,8 @@ import { ProductComponent } from './Components/Products/product/product.componen
 import { ClientComponent } from './Components/Clients/client/client.component';
 import { SellerComponent } from './Components/Sellers/seller/seller.component';
 import { InvoiceComponent } from './Components/invoice/invoice/invoice.component';
+import { AddeditproductComponent } from './Components/Products/addeditproduct/addeditproduct.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { InvoiceComponent } from './Components/invoice/invoice/invoice.component
     ProductComponent,
     ClientComponent,
     SellerComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    AddeditproductComponent
   ],
   imports: [
     BrowserModule,
@@ -39,13 +42,10 @@ import { InvoiceComponent } from './Components/invoice/invoice/invoice.component
     HttpClientModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

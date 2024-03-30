@@ -1,0 +1,65 @@
+<div class="container">
+    <h2 class="text-center mb-4">Add/Update Product</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <form #forms="ngForm" name="addUpdateNewProduct">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" #name="ngModel" class="form-control" id="name" name="name"
+                        [(ngModel)]="addeditProduct.name" minlength="3" required>
+                    <div class="text-danger" *ngIf="name.invalid && (name.touched || name.dirty || isSubmit)">
+                        <span *ngIf="name.errors?.['minlength']">Name should have minimum 3 characters.</span>
+                        <span *ngIf="name.errors?.['required']">Please enter name.</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input type="number" #price="ngModel" class="form-control" id="price" name="price"
+                        [(ngModel)]="addeditProduct.price" min="1" required>
+                    <div class="text-danger"
+                        *ngIf="price.invalid && (price.touched || price.dirty || isSubmit)">
+                        <span *ngIf="price.errors?.['required']">Please enter price.</span>
+                        <span *ngIf="price.errors?.['min']">Price must be greater than 0.</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="Quantity" class="form-label">Quantity</label>
+                    <input type="number" #quantity="ngModel" class="form-control" id="quantity" name="quantity"
+                        [(ngModel)]="addeditProduct.quantity" min="1" required>
+                    <div class="text-danger"
+                        *ngIf="quantity.invalid && (quantity.touched || quantity.dirty || isSubmit)">
+                        <span *ngIf="quantity.errors?.['required']">Please enter quantity.</span>
+                        <span *ngIf="quantity.errors?.['min']">Quantity must be greater than or equal to 1.</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <input type="text" #description="ngModel" class="form-control" id="description" name="description"
+                        [(ngModel)]="addeditProduct.description" required minlength="3" maxlength="200">
+                    <div class="text-danger"
+                        *ngIf="description.invalid && (description.touched || description.dirty || isSubmit)">
+                        <span *ngIf="description.errors?.['minlength']">Description should have minimum 3
+                            characters.</span>
+                        <span *ngIf="description.errors?.['required']">Please enter description.</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="image-preview">
+                        <img [src]="getImageSource()" alt="Image Preview" height="100px" width="100px">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="fileUpload" class="form-label">Choose Image</label>
+                    <input type="file" name="fileUpload" accept="jpg, jpeg, png" required (change)="onFileSelected($event)" #fileUpload class="form-control">
+                    <div class="text-danger" *ngIf="selectedFile == undefined && isSubmit">
+                        Please select a file.
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary me-md-2" (click)="addUpdateNewProduct()">Submit</button>
+                    <button type="button" class="btn btn-secondary" (click)="backToList()">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

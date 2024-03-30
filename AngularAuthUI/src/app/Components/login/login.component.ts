@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.auth.login(this.loginForm.value).subscribe({
         next: (res) => {
+          localStorage.setItem('username',this.loginForm.value.username);
           this.loginForm.reset();
           this.auth.setToken(res.token);
           let tokenPayload = this.auth.decodedToken();
@@ -61,7 +62,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['dashboard']);
         },
         error: (res) => {
-          console.log(res);
           this.toast.error(res.error.message, 'ERROR');
         }
       })
