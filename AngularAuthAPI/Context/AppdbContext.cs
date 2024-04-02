@@ -11,6 +11,10 @@ namespace AngularAuthAPI.Context
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Client> clients { get; set; }
+
+        public DbSet<Seller> sellers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
