@@ -10,5 +10,8 @@
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }
         public string ModifiedBy { get; set; }
+        public string FileName { get; set; }
+        public string ContentType { get; set; }
+        public string Data { get; set; }
     }
 }

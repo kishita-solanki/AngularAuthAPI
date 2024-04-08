@@ -1,0 +1,173 @@
+<form class="container invoice-form" [formGroup]="invoiceform" (ngSubmit)="SaveInvoice()">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">{{ pagetitle }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sellerSelect">Select Seller:</label>
+                        <select id="sellerSelect" class="form-control" (change)="onSellerChange($event)">
+                            <option value="">-- Select Seller --</option>
+                            <option *ngFor="let seller of sellerList" [value]="seller.id">{{ seller.name }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="form-group seller-detail">
+                        <label>Seller Name:</label>
+                        {{seller?.name}}
+                    </div>
+                    <div class="form-group seller-detail">
+                        <label>Address:</label>
+                        {{seller?.address}}
+                    </div>
+                    <div class="form-group seller-detail">
+                        <label>Email:</label>
+                        {{seller?.email}}
+                    </div>
+                    <div class="form-group seller-detail">
+                        <label>Mobile No:</label>
+                        {{seller?.mobileNo}}
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="clientSelect">Select Client:</label>
+                        <select id="clientSelect" class="form-control" (change)="onClientChange($event)">
+                            <option value="">-- Select Client --</option>
+                            <option *ngFor="let client of clientList" [value]="client.id">{{ client.name }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-end">
+                <div class="col-md-4">
+                    <div class="form-group client-detail">
+                        <label>Client Name:</label>
+                        {{client?.name}}
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Address:</label>
+                        {{client?.address}}
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Email:</label>
+                        {{client?.email}}
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Mobile No:</label>
+                        {{client?.mobileNo}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group client-detail">
+                        <label>Invoice number:</label>
+                        I0001
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Invoice Date:</label>
+                        bjhvbsjdvbjsdv
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Due Date:</label>
+                        sdgvFgvbfbbx
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Reference/Purchase Order No:</label>
+                        54679683967389
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary justify-content-end" (click)="addRow()">Add +</button>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of rowsFormArray.controls; let i=index" [formGroupName]="i">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                <input type="text" formControlName="product" class="form-control">
+                            </td>
+                            <td>
+                                <input type="text" formControlName="description" class="form-control">
+                            </td>
+                            <td>
+                                <input type="number" formControlName="qty" class="form-control">
+                            </td>
+                            <td>
+                                <input type="number" formControlName="price" class="form-control">
+                            </td>
+                            <td>
+                                <input type="number" formControlName="Total" class="form-control">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    (click)="removeRow(i)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-3 justify-content-end">
+                <div class="col-md-3">
+                    <div class="form-group client-detail">
+                        <label>Sub Total:</label>
+                        789456
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Tax:</label>
+                        4111
+                    </div>
+                    <div class="form-group client-detail">
+                        <label>Total amount due:</label>
+                        7879464
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div>
+                    <h4>Note:</h4>
+                    <p>Thank you for your business! If you have any questions or concerns regarding this invoice, please
+                        don't hesitate to contact us.</p>
+                    <h4>Terms:</h4>
+                    <ol>
+                        <li>Payment is due within 30 days from the invoice date unless otherwise specified.</li>
+                        <li>Late payments may be subject to a late fee of <strong>2%</strong> per
+                            month.</li>
+                        <li>All payments must be made in <strong>INR</strong>.</li>
+                        <li>Goods remain the property of <strong>{{seller?.name}}</strong> until payment is received
+                            in full.</li>
+                        <li>Invoices not paid within <strong>7</strong> days may be subject to legal
+                            action.</li>
+                    </ol>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Invoice</button>
+        </div>
+        <div class="card-footer text-center m-2">
+            <h6>We look forward to serving you again soon!!!</h6>
+        </div>
+    </div>
+</form>

@@ -71,5 +71,20 @@ namespace AngularAuthAPI.Controllers
 
             return File(fileData, fileModel.ContentType, fileModel.FileName);
         }
+
+        [HttpGet("sellerfiledownload/{fileName}")]
+        public IActionResult SellerFileDownload(string fileName)
+        {
+            var fileModel = _authContext.sellers.FirstOrDefault(f => f.FileName == fileName);
+            if (fileModel == null)
+            {
+                return NotFound();
+            }
+
+            // Convert Base64 string to byte array
+            byte[] fileData = Convert.FromBase64String(fileModel.Data);
+
+            return File(fileData, fileModel.ContentType, fileModel.FileName);
+        }
     }
 }

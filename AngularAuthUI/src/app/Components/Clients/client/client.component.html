@@ -1,1 +1,57 @@
-<p>client works!</p>
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-center mb-4">Client List</h2>
+      </div>
+    </div>
+    <div class="row justify-content-end">
+      <div class="col-auto mb-3">
+        <button type="button" class="btn btn-primary" [routerLink]="['/addclient']">Add Client</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12" *ngIf="clientlist.length > 0">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">Mobile</th>
+                <th scope="col" class="d-none d-md-table-cell">Created</th>
+                <th scope="col" class="d-none d-md-table-cell">Modified</th>
+                <th scope="col" class="d-none d-md-table-cell">Modified By</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of clientlist | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.name }}</td>
+                <td>{{ item.address }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.mobileNo }}</td>
+                <td class="d-none d-md-table-cell">{{ getLocalTime(item.created) }}</td>
+                <td class="d-none d-md-table-cell">{{ getLocalTime(item.modified) }}</td>
+                <td class="d-none d-md-table-cell">{{ item.modifiedBy }}</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-warning me-1" [routerLink]="['/editclient', item.id]">Edit</button>
+                    <button type="button" class="btn btn-danger me-1" (click)="deleteClient(item.id)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <pagination-controls class="pagination-controls" (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="clientlist.length <= 0">
+        <h3 class="text-center">No Data Found</h3>
+      </div>
+    </div>
+  </div>

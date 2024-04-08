@@ -1,0 +1,14 @@
+  .pagination-controls {
+    margin-top: 20px;
+  }
+  
+  /* Make table header more attractive */
+  th {
+    font-weight: bold;
+  }
+  
+  /* Hover effect on rows */
+  tr:hover {
+    background-color: #e9ecef;
+  }
+  

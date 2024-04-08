@@ -44,7 +44,8 @@ a:hover{
     align-items: center;
     cursor: pointer;
     border: 1px solid #ddd;
-    color: #4343ff;
+    /* color: #4343ff; */
+    color: #263238;
 }
 
 .input-field.error{

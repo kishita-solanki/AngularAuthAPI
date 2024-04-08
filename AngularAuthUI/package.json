@@ -20,6 +20,7 @@
     "@angular/router": "^16.0.0",
     "@auth0/angular-jwt": "^5.2.0",
     "jest-editor-support": "*",
+    "moment-timezone": "^0.5.45",
     "ng-angular-popup": "^0.5.2",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^18.0.0",

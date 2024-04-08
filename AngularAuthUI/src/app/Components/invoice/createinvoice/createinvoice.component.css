@@ -1,0 +1,30 @@
+.invoice-form {
+    margin-top: 20px;
+}
+
+.card {
+    padding: 20px;
+}
+
+.seller-detail {
+    margin-bottom: 10px;
+}
+
+.client-detail {
+    margin-bottom: 10px;
+}
+
+/* .table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 0.75rem;
+  }
+  
+  .table th {
+    background-color: #f8f9fa;
+  }
+  
+  .form-control {
+    width: 100%;
+    max-width: 200px;
+  } */

@@ -57,7 +57,7 @@ namespace AngularAuthAPI.Controllers
             _authContext.clients.Add(client);
             await _authContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = client.Id }, client);
+            return CreatedAtAction("GetClients", new { id = client.Id }, client);
         }
 
         [HttpPut("{id}", Name = "edit-client")]

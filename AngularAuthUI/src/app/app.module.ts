@@ -19,6 +19,9 @@ import { SellerComponent } from './Components/Sellers/seller/seller.component';
 import { InvoiceComponent } from './Components/invoice/invoice/invoice.component';
 import { AddeditproductComponent } from './Components/Products/addeditproduct/addeditproduct.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AddeditsellerComponent } from './Components/Sellers/addeditseller/addeditseller.component';
+import { AddeditclientComponent } from './Components/Clients/addeditclient/addeditclient.component';
+import { CreateinvoiceComponent } from './Components/invoice/createinvoice/createinvoice.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ClientComponent,
     SellerComponent,
     InvoiceComponent,
-    AddeditproductComponent
+    AddeditproductComponent,
+    AddeditsellerComponent,
+    AddeditclientComponent,
+    CreateinvoiceComponent
   ],
   imports: [
     BrowserModule,

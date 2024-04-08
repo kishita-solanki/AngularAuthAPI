@@ -1,0 +1,82 @@
+<div class="outer">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+                <div class="panel border bg-white">
+                    <div class="panel-heading">
+                        <h3 class="pt-3 font-weight-bold">Add/Edit Sellers</h3>
+                    </div>
+                    <div class="panel-body p-3">
+                        <form [formGroup]="sellerForm">
+                            <div class="form-group pt-3">
+                                <div class="input-field"
+                                    [class.error]="sellerForm.controls['name'].dirty && sellerForm.hasError('required','name')">
+                                    <span class="fa fa-user p-2"></span>
+                                    <input [(ngModel)]="addeditSeller.name" formControlName="name" type="text"
+                                        placeholder="Name">
+                                </div>
+                            </div>
+                            <small *ngIf="sellerForm.controls['name'].dirty && sellerForm.hasError('required','name')"
+                                class="text-danger">*Name is required</small>
+                            <div class="form-group pt-3">
+                                <div class="input-field"
+                                    [class.error]="sellerForm.controls['email'].dirty && sellerForm.hasError('required','email')">
+                                    <span class="fa fa-envelope  p-2"></span>
+                                    <input [(ngModel)]="addeditSeller.email" formControlName="email" type="text"
+                                        placeholder="Email">
+                                </div>
+                            </div>
+                            <small *ngIf="sellerForm.controls['email'].dirty && sellerForm.hasError('required','email')"
+                                class="text-danger">*Email is required</small>
+                            <small *ngIf="sellerForm.controls['email'].dirty && sellerForm.hasError('email','email')"
+                                class="text-danger">*Enter valid email</small>
+                            <div class="form-group pt-3">
+                                <div class="input-field"
+                                    [class.error]="sellerForm.controls['mobilenumber'].dirty && sellerForm.hasError('required','mobilenumber')">
+                                    <span class="fas fa-mobile-alt  p-2"></span>
+                                    <input [(ngModel)]="addeditSeller.mobileNo" formControlName="mobilenumber"
+                                        maxlength="10" type="text" placeholder="mobileNo">
+                                </div>
+                            </div>
+                            <small
+                                *ngIf="sellerForm.controls['mobilenumber'].dirty && sellerForm.hasError('required','mobilenumber')"
+                                class="text-danger">*Mobile number is required</small>
+                            <small
+                                *ngIf="sellerForm.controls['mobilenumber'].dirty && sellerForm.hasError('maxlength','mobilenumber')"
+                                class="text-danger">*Enter valid mobile number</small>
+                            <div class="form-group pt-3">
+                                <textarea
+                                    [class.error]="sellerForm.controls['address'].dirty && sellerForm.hasError('required','address')"
+                                    formControlName="address" rows="4" placeholder="Address" class="address-textarea"
+                                    [(ngModel)]="addeditSeller.address"></textarea>
+                                <small
+                                    *ngIf="sellerForm.controls['address'].dirty && sellerForm.hasError('required','address')"
+                                    class="text-danger">*Address is required</small>
+                            </div>
+                            <div class="mb-3">
+                                <div class="image-preview">
+                                    <img [src]="getImageSource()" alt="Image Preview" height="100px" width="100px">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileUpload" class="form-label">Choose Image</label>
+                                <input type="file" formControlName="sellerimage" name="fileUpload"
+                                    accept="jpg, jpeg, png" (change)="onFileSelected($event)" class="form-control">
+                            </div>
+                            <small
+                                *ngIf="sellerForm.controls['sellerimage'].dirty && sellerForm.hasError('required','sellerimage')"
+                                class="text-danger">*Image is required</small>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-secondary me-md-2"
+                                    (click)="AddUpdateNewSeller()">Submit</button>
+                                <button type="button" class="btn btn-secondary" (click)="backToList()">Back</button>
+                            </div>
+                            <!-- <button (click)="AddUpdateNewSeller()" type="submit"
+                                class="btn btn-primary btn-block mt-4 w-100">Sign Up</button> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
